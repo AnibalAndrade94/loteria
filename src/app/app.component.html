@@ -1,0 +1,42 @@
+<div class="page">
+  <header class="page__header">
+    <h1>🎴 Lotería de Table Topics</h1>
+    <p class="subtitle">Da clic para sacar una carta al azar con su pregunta</p>
+  </header>
+
+  <main class="stage">
+    <div class="card-frame" [class.card-frame--empty]="!currentCard">
+      <ng-container *ngIf="currentCard; else emptyState">
+        <div class="card" [class.card--revealing]="isRevealing">
+          <span class="card__number">{{ currentCard.id }}</span>
+          <div class="card__image-wrap">
+            <img
+              class="card__image"
+              [src]="currentCard.image"
+              [alt]="currentCard.name"
+              (error)="onImageError($event)"
+            />
+            <div class="card__placeholder">{{ currentCard.name }}</div>
+          </div>
+          <h2 class="card__name">{{ currentCard.name }}</h2>
+          <p class="card__question">{{ currentCard.question }}</p>
+        </div>
+      </ng-container>
+      <ng-template #emptyState>
+        <div class="empty-state">
+          <span class="empty-state__icon">🀄</span>
+          <p>Presiona <strong>“Sacar carta”</strong> para comenzar</p>
+        </div>
+      </ng-template>
+    </div>
+
+    <p class="round-message" *ngIf="roundCompletedMessage">{{ roundCompletedMessage }}</p>
+
+    <p class="progress">Carta {{ drawnCount }} de {{ totalCards }}</p>
+
+    <div class="actions">
+      <button class="btn btn--primary" (click)="draw()">🎲 Sacar carta</button>
+      <button class="btn btn--secondary" (click)="restart()">↺ Reiniciar mazo</button>
+    </div>
+  </main>
+</div>
